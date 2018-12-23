@@ -23,18 +23,20 @@ def createdata():
            np.array(score)
 
 
-def plot3D(alpha, beta, score, maxdepth=np.array([1])):
+def plot3D(alpha, beta, score, maxdepth=np.array([1]), figsize=[15,15], elev=45, azim=45):
     lenalpha = alpha.size
     lenbeta = beta.size
     X, Y = np.meshgrid(alpha, beta)
     numdepth = maxdepth.size
-    fig = plt.figure()
+    fig = plt.figure(figsize=figsize)
     ax = Axes3D(fig)
     for depth in range(numdepth):
         numscore = score.size/numdepth
         Z = score[int(numscore*depth): int(numscore*(depth+1))].\
-            reshape(lenalpha, lenbeta)
-        ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=plt.get_cmap())
+            reshape(lenbeta, lenalpha)
+        print(X.shape, Y.shape, Z.shape)
+        ax.plot_surface(X, Y, Z, rstride=1, cstride=1, alpha=0.7, cmap=plt.get_cmap())
+        ax.view_init(elev=elev, azim=azim)
     plt.show()
 
 
